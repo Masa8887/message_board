@@ -49,21 +49,17 @@ public class UpdateServlet extends HttpServlet {
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
             m.setUpdated_at(currentTime);       // 更新日時のみ上書き
 
-            // データベースを更新
-            em.getTransaction().begin();
-            em.getTransaction().commit();
+
 
             // データベースを更新
             em.getTransaction().begin();
+   //         em.merge(m); // エンティティの更新を永続化コンテキストに通知
             em.getTransaction().commit();
 
-            // データベースを更新
-            em.getTransaction().begin();
-            em.getTransaction().commit();
+            //フラッシュメッセージの設定
             request.getSession().setAttribute("flush", "更新が完了しました。");       // ここを追記
+
             em.close();
-
-
 
             // セッションスコープ上の不要になったデータを削除
             request.getSession().removeAttribute("message_id");
